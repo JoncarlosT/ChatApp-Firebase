@@ -15,6 +15,7 @@ import "firebase/analytics";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import MessageBox from "./components/MessageBox";
+import { Grid } from "@material-ui/core";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBsN7j9R_2lzH1r8FQhKeAyJpUfGd0KHSo",
@@ -69,11 +70,11 @@ export default function App() {
           <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
         )}
 
-        <MessageBox {...user} />
-
         <StyledThemeButton onClick={changeTheme}>
           <Brightness4Icon style={{ fontSize: 50 }} />
         </StyledThemeButton>
+
+        {user && <MessageBox {...user} />}
         <GlobalStyle />
       </StyledApp>
     </ThemeProvider>
