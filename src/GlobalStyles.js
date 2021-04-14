@@ -1,9 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-    *{
-        margin: 0
-    }
+    *{margin: 0}
+    body{font-family: Nunito}
 `;
 
 export const DarkTheme = {

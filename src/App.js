@@ -14,6 +14,7 @@ import "firebase/analytics";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import MessageBox from "./components/MessageBox";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBsN7j9R_2lzH1r8FQhKeAyJpUfGd0KHSo",
@@ -39,7 +40,6 @@ export default function App() {
 
   //USER AUTH
   const [user] = useAuthState(firebase.auth());
-  console.log(user);
 
   const signInWithGoogle = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -64,10 +64,12 @@ export default function App() {
     <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
       <StyledApp>
         {user ? (
-          <StyledButton onClick={signOut}>SignOut</StyledButton>
+          <StyledButton onClick={signOut}>Sign Out</StyledButton>
         ) : (
-          <StyledButton onClick={signInWithGoogle}>SignIn</StyledButton>
+          <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
         )}
+
+        <MessageBox {...user} />
 
         <StyledThemeButton onClick={changeTheme}>
           <Brightness4Icon style={{ fontSize: 50 }} />
@@ -91,6 +93,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   font-size: 2rem;
   padding: 10px;
+  border-radius: 10px;
 `;
 
 const StyledThemeButton = styled.button`
