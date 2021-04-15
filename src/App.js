@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 
-import GlobalStyle from "./GlobalStyles";
 import { DarkTheme, LightTheme } from "./GlobalStyles";
 
 import Brightness4Icon from "@material-ui/icons/Brightness4";
@@ -64,27 +63,55 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
       <StyledApp>
-        {user ? (
-          <StyledButton onClick={signOut}>Sign Out</StyledButton>
-        ) : (
-          <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
-        )}
-
-        <StyledThemeButton onClick={changeTheme}>
-          <Brightness4Icon style={{ fontSize: 50 }} />
-        </StyledThemeButton>
-
-        {user && <MessageBox {...user} />}
-        <GlobalStyle />
+        <aside>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            spacing={5}
+          >
+            <Grid item>
+              {user ? (
+                <StyledButton onClick={signOut}>Sign Out</StyledButton>
+              ) : (
+                <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
+              )}
+            </Grid>
+            <Grid item>
+              <StyledThemeButton onClick={changeTheme}>
+                <Brightness4Icon style={{ fontSize: 50 }} />
+              </StyledThemeButton>
+            </Grid>
+          </Grid>
+        </aside>
+        <StyledBody>{user && <MessageBox {...user} />}</StyledBody>
       </StyledApp>
     </ThemeProvider>
   );
 }
 
+const StyledBody = styled.div`
+  margin-left: 300px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+`;
+
 const StyledApp = styled.div`
   background-color: ${(props) => props.theme.body};
   color: ${(props) => props.theme.fontColor};
   height: 100vh;
+
+  aside {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 300px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -105,6 +132,5 @@ const StyledThemeButton = styled.button`
   cursor: pointer;
   font-size: 2rem;
   padding: 10px;
-  align-items: center;
   display: flex;
 `;

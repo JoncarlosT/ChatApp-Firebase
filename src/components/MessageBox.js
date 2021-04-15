@@ -4,6 +4,7 @@ import styled from "styled-components";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import Message from "./Message";
+import { Grid } from "@material-ui/core";
 
 export default function MessageBox({ uid, displayName, photoURL }) {
   const [messages, setMessages] = useState([]);
@@ -44,27 +45,47 @@ export default function MessageBox({ uid, displayName, photoURL }) {
 
   return (
     <StyledMessageBox>
-      {messages.map((message, i) => (
-        <Message key={i} {...message} />
-      ))}
-      <StyledForm onSubmit={sendNewMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setnewMessage(e.target.value)}
-          placeholder="Type your message here..."
-        />
-      </StyledForm>
+      <Grid
+        container
+        direction="column"
+        justify="flex-end"
+        alignItems="flex-end"
+        spacing={2}
+      >
+        {messages.map((message) => (
+          <Grid item>
+            <Message key={message.uid} {...message} />
+          </Grid>
+        ))}
+        <Grid item>
+          <StyledForm onSubmit={sendNewMessage}>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setnewMessage(e.target.value)}
+              placeholder="Type your message here..."
+            />
+          </StyledForm>
+        </Grid>
+      </Grid>
     </StyledMessageBox>
   );
 }
 
 const StyledMessageBox = styled.div`
-  height: 200px;
-  width: 100px;
+  position: absolute;
+  bottom: 10px;
+  right: 100px;
 `;
 
 const StyledForm = styled.form`
   input {
+    outline: none;
+    border: 0;
+    width: 500px;
+    float: left;
+    padding: 8px;
+    border-radius: 25px;
+    padding: 20px;
   }
 `;
