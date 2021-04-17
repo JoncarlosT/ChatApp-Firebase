@@ -67,4 +67,5 @@ const StyledMessage = styled.div`
   padding: 20px;
   height: 60px;
   border-radius: 25px;
+  width: 300px;
 `;

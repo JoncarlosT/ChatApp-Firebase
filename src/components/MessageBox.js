@@ -45,38 +45,22 @@ export default function MessageBox({ uid, displayName, photoURL }) {
 
   return (
     <StyledMessageBox>
-      <Grid
-        container
-        direction="column"
-        justify="flex-end"
-        alignItems="flex-end"
-        spacing={2}
-      >
-        {messages.map((message) => (
-          <Grid item>
-            <Message key={message.uid} {...message} />
-          </Grid>
-        ))}
-        <Grid item>
-          <StyledForm onSubmit={sendNewMessage}>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setnewMessage(e.target.value)}
-              placeholder="Type your message here..."
-            />
-          </StyledForm>
-        </Grid>
-      </Grid>
+      {messages.map((message) => (
+        <Message key={message.uid} {...message} />
+      ))}
+      <StyledForm onSubmit={sendNewMessage}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setnewMessage(e.target.value)}
+          placeholder="Type your message here..."
+        />
+      </StyledForm>
     </StyledMessageBox>
   );
 }
 
-const StyledMessageBox = styled.div`
-  position: absolute;
-  bottom: 10px;
-  right: 100px;
-`;
+const StyledMessageBox = styled.div``;
 
 const StyledForm = styled.form`
   input {

@@ -63,28 +63,16 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
       <StyledApp>
-        <aside>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-            spacing={5}
-          >
-            <Grid item>
-              {user ? (
-                <StyledButton onClick={signOut}>Sign Out</StyledButton>
-              ) : (
-                <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
-              )}
-            </Grid>
-            <Grid item>
-              <StyledThemeButton onClick={changeTheme}>
-                <Brightness4Icon style={{ fontSize: 50 }} />
-              </StyledThemeButton>
-            </Grid>
-          </Grid>
-        </aside>
+        <SideBar>
+          {user ? (
+            <StyledButton onClick={signOut}>Sign Out</StyledButton>
+          ) : (
+            <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
+          )}
+          <ThemeButton onClick={changeTheme}>
+            <Brightness4Icon style={{ fontSize: 50 }} />
+          </ThemeButton>
+        </SideBar>
         <StyledBody>{user && <MessageBox {...user} />}</StyledBody>
       </StyledApp>
     </ThemeProvider>
@@ -100,37 +88,38 @@ const StyledApp = styled.div`
   background-color: ${(props) => props.theme.body};
   color: ${(props) => props.theme.fontColor};
   height: 100vh;
+`;
 
-  aside {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 300px; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: #111; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
-  }
+const SideBar = styled.div`
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  width: 300px;
+  left: 0px;
+  position: fixed;
 `;
 
 const StyledButton = styled.button`
   background-image: ${(props) => props.theme.primary};
-  color: ${(props) => props.theme.fontColor};
   border: none;
   cursor: pointer;
   font-size: 2rem;
   padding: 10px;
   border-radius: 10px;
+  width: 200px;
 `;
 
-const StyledThemeButton = styled.button`
+const ThemeButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
   background-image: ${(props) => props.theme.primary};
   color: ${(props) => props.theme.fontColor};
-  border: none;
-  border-radius: 100%;
-  cursor: pointer;
-  font-size: 2rem;
   padding: 10px;
-  display: flex;
+  padding-bottom: 8px;
+  border-radius: 100%;
 `;
