@@ -2,6 +2,8 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import { formatRelative } from "date-fns";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default function Message({
   text = "",
@@ -10,7 +12,8 @@ export default function Message({
   photoURL = "",
   uid = "",
 }) {
-  console.log(createdAt);
+  const currentUser = firebase.auth().currentUser;
+
   const formatDate = (date) => {
     let formattedDate = "";
     if (date) {
@@ -23,49 +26,63 @@ export default function Message({
   };
 
   return (
-    <StyledMessage>
-      <Grid container direction="column" justify="center" alignItems="center">
-        <Grid
-          container
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-start"
-          spacing={2}
-        >
-          <Grid item>
+    <>
+      {currentUser.displayName === displayName ? (
+        <UserMessage>
+          <StyledImg src={photoURL} alt="" width="40" height="40" />
+
+          <div>
             <p>{displayName}</p>
-          </Grid>
-          <Grid item>
-            <StyledImg src={photoURL} alt="" width="40" height="40" />
-          </Grid>
-        </Grid>
-        <Grid item>
-          <Grid
-            container
-            direction="row"
-            justify="flex-end"
-            alignItems="flex-start"
-            spacing={2}
-          >
-            <Grid item>
-              <p>{text}</p>
-            </Grid>
-            <Grid item>{/* <p>{formatDate(createdAt.seconds)}</p> */}</Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </StyledMessage>
+
+            <Text>{text}</Text>
+          </div>
+        </UserMessage>
+      ) : (
+        <ReceivedMessage>
+          <StyledImg src={photoURL} alt="" width="40" height="40" />
+          <div>
+            <p>{displayName}</p>
+
+            <Text>{text}</Text>
+          </div>
+        </ReceivedMessage>
+      )}
+    </>
   );
 }
+
+const Text = styled.p`
+  background-image: ${(props) => props.theme.primary};
+  padding: 15px;
+  border-radius: 25px;
+`;
 
 const StyledImg = styled.img`
   border-radius: 50%;
 `;
 
-const StyledMessage = styled.div`
-  background-image: ${(props) => props.theme.primary};
-  padding: 20px;
-  height: 60px;
-  border-radius: 25px;
-  width: 300px;
+const ReceivedMessage = styled.div`
+  margin: 20px;
+  display: flex;
+  align-items: flex-end;
+  left: 20px;
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 10px;
+  }
+`;
+
+const UserMessage = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  margin: 20px;
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 10px;
+  }
 `;

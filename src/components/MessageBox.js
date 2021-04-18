@@ -43,11 +43,21 @@ export default function MessageBox({ uid, displayName, photoURL }) {
     setnewMessage("");
   };
 
+  const right = {
+    alignItems: "flex-start",
+  };
+
+  const currentUser = firebase.auth().currentUser;
+
   return (
     <StyledMessageBox>
-      {messages.map((message) => (
-        <Message key={message.uid} {...message} />
-      ))}
+      <MessageWrapper
+        theme={currentUser.displayName === displayName ? "" : right}
+      >
+        {messages.map((message, i) => (
+          <Message key={i} {...message} />
+        ))}
+      </MessageWrapper>
       <StyledForm onSubmit={sendNewMessage}>
         <input
           type="text"
@@ -60,7 +70,23 @@ export default function MessageBox({ uid, displayName, photoURL }) {
   );
 }
 
-const StyledMessageBox = styled.div``;
+const MessageWrapper = styled.div`
+  overflow: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props) => props.theme.alignItems};
+`;
+
+const StyledMessageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 300px;
+  height: 100vh;
+  right: 10px;
+  align-items: flex-end;
+`;
 
 const StyledForm = styled.form`
   input {
@@ -71,5 +97,6 @@ const StyledForm = styled.form`
     padding: 8px;
     border-radius: 25px;
     padding: 20px;
+    margin: 0px 20px 20px;
   }
 `;

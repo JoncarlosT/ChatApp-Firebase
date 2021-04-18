@@ -79,10 +79,7 @@ export default function App() {
   );
 }
 
-const StyledBody = styled.div`
-  margin-left: 300px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
-`;
+const StyledBody = styled.div``;
 
 const StyledApp = styled.div`
   background-color: ${(props) => props.theme.body};
