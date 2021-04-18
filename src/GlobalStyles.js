@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
+//GLOBAL STLYES AND THEMES
 const GlobalStyle = createGlobalStyle`
     *{margin: 0}
     body{font-family: Nunito}

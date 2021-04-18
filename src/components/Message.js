@@ -1,9 +1,11 @@
-import { Grid } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
+
+//IMPORT FIREBASE
+import firebase from "../firebase";
+
+//IMPORT FOR DATE-FNS
 import { formatRelative } from "date-fns";
-import firebase from "firebase/app";
-import "firebase/auth";
 
 export default function Message({
   text = "",
@@ -12,6 +14,7 @@ export default function Message({
   photoURL = "",
   uid = "",
 }) {
+  //GETTING CURRENT USER
   const currentUser = firebase.auth().currentUser;
 
   const formatDate = (date) => {
@@ -27,6 +30,8 @@ export default function Message({
 
   return (
     <>
+      {/* HANDLE USER MESSAGES AND RECIVED MESSAGE  */}
+
       {currentUser.displayName === displayName ? (
         <UserMessage>
           <StyledImg src={photoURL} alt="" width="40" height="40" />
@@ -50,6 +55,8 @@ export default function Message({
     </>
   );
 }
+
+//STYLED COMPONENTS
 
 const Text = styled.p`
   background-image: ${(props) => props.theme.primary};

@@ -1,34 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ThemeProvider } from "styled-components";
 
+//IMPORT THEMES
+import { ThemeProvider } from "styled-components";
 import { DarkTheme, LightTheme } from "./GlobalStyles";
 
+//IMPORT FROM MATERIALUI
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
-import "firebase/analytics";
-
+// IMPORT FOR FIREBASE
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import firebase from "./firebase";
+
+//IMPORT COMPONENTS
 import MessageBox from "./components/MessageBox";
-import { Grid } from "@material-ui/core";
-
-firebase.initializeApp({
-  apiKey: "AIzaSyBsN7j9R_2lzH1r8FQhKeAyJpUfGd0KHSo",
-  authDomain: "chatapp-bcaba.firebaseapp.com",
-  projectId: "chatapp-bcaba",
-  storageBucket: "chatapp-bcaba.appspot.com",
-  messagingSenderId: "837688916956",
-  appId: "1:837688916956:web:160b61c6d654d8758eed19",
-  measurementId: "G-H6QZ3M995J",
-});
-
-// const auth = firebase.auth();
-// const firestore = firebase.firestore();
-// const analytics = firebase.analytics();
 
 export default function App() {
   //DARK MODE
@@ -79,6 +64,7 @@ export default function App() {
   );
 }
 
+//STYLED COMPONENTS
 const StyledBody = styled.div``;
 
 const StyledApp = styled.div`

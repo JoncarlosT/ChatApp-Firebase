@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-import firebase from "firebase/app";
-import "firebase/firestore";
+//IMPORT FIREBASE
+import firebase from "../firebase";
+
+//IMPORT COMPONENTS
 import Message from "./Message";
-import { Grid } from "@material-ui/core";
 
 export default function MessageBox({ uid, displayName, photoURL }) {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setnewMessage] = useState("");
+  //GETTING CURRENT USER
+  const currentUser = firebase.auth().currentUser;
 
+  //GET MESSAGES FROM FIREBASE
+  const [messages, setMessages] = useState([]);
   const db = firebase.firestore();
   const messageRef = db.collection("messages").orderBy("createdAt").limit(100);
 
@@ -27,11 +30,16 @@ export default function MessageBox({ uid, displayName, photoURL }) {
     getMessages();
   }, [uid]);
 
+  //SENDING NEW USER MESSAGE TO FIREBASE
+  const [newMessage, setnewMessage] = useState("");
+
+  const bottomMessage = useRef();
+
   const sendNewMessage = async (e) => {
     e.preventDefault();
 
     if (newMessage) {
-      db.collection("messages").add({
+      await db.collection("messages").add({
         text: newMessage,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         uid,
@@ -41,22 +49,24 @@ export default function MessageBox({ uid, displayName, photoURL }) {
     }
 
     setnewMessage("");
-  };
 
-  const right = {
-    alignItems: "flex-start",
+    bottomMessage.current.scrollIntoView({ behavior: "smooth" });
   };
-
-  const currentUser = firebase.auth().currentUser;
 
   return (
     <StyledMessageBox>
+      {/* HANDLE USER MESSAGES AND RECIVED MESSAGE  */}
       <MessageWrapper
-        theme={currentUser.displayName === displayName ? "" : right}
+        theme={
+          currentUser.displayName === displayName
+            ? 'alignItems: "flex-end"'
+            : 'alignItems: "flex-start"'
+        }
       >
         {messages.map((message, i) => (
           <Message key={i} {...message} />
         ))}
+        <BottomMessage ref={bottomMessage} />
       </MessageWrapper>
       <StyledForm onSubmit={sendNewMessage}>
         <input
@@ -70,8 +80,12 @@ export default function MessageBox({ uid, displayName, photoURL }) {
   );
 }
 
+//STYLED COMPONENTS
+
+const BottomMessage = styled.span``;
+
 const MessageWrapper = styled.div`
-  overflow: scroll;
+  /* overflow: auto; */
   overflow-x: hidden;
   width: 100%;
   display: flex;
