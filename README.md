@@ -1,4 +1,4 @@
-A ono to one react chat. Using firebase to host and store data
+A one to one react chat. Using firebase to host and store data
 
 # Getting Started with Create React App
 
