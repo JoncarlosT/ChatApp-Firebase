@@ -45,6 +45,17 @@ export default function App() {
     }
   };
 
+  //CLEAR CHAT
+
+  const db = firebase.firestore();
+  const clearChat = async () => {
+    db.collection("messages")
+      .get()
+      .then((res) =>
+        res.forEach((element) => console.log(element.ref.delete()))
+      );
+  };
+
   return (
     <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
       <StyledApp>
@@ -54,6 +65,9 @@ export default function App() {
           ) : (
             <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
           )}
+
+          <DeleteButton onClick={clearChat}>Clear</DeleteButton>
+
           <ThemeButton onClick={changeTheme}>
             <Brightness4Icon style={{ fontSize: 50 }} />
           </ThemeButton>
@@ -66,6 +80,16 @@ export default function App() {
 
 //STYLED COMPONENTS
 const StyledBody = styled.div``;
+
+const DeleteButton = styled.button`
+  background-image: ${(props) => props.theme.primary};
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 10px;
+  border-radius: 10px;
+  width: 200px;
+`;
 
 const StyledApp = styled.div`
   background-color: ${(props) => props.theme.body};

@@ -96,6 +96,7 @@ const MessageWrapper = styled.div`
 const StyledMessageBox = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   margin-left: 300px;
   height: 100vh;
   right: 10px;
